@@ -8,7 +8,7 @@
     <ProjectGuid>{B9561490-D977-4C76-96E4-55E37A76E416}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DBFDatabaseAdapter</RootNamespace>
+    <RootNamespace>DatabaseAdapter</RootNamespace>
     <AssemblyName>DBFDatabaseAdapter</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -48,9 +48,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DatabaseAdapter\DatabaseAdapter.csproj">
-      <Project>{3CFC8A38-C190-4CD1-B421-F2933D5A9E17}</Project>
-      <Name>DatabaseAdapter</Name>
+    <ProjectReference Include="..\IDatabaseAdapter\IDatabaseAdapter.csproj">
+      <Project>{537a7098-f246-4a77-941d-eefdfa4c6569}</Project>
+      <Name>IDatabaseAdapter</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

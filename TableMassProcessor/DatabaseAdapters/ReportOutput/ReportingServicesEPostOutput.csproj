@@ -10,11 +10,12 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ReportOutput</RootNamespace>
     <AssemblyName>ReportOutput</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>2.0</OldToolsVersion>
     <UpgradeBackupLocation />
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -49,6 +50,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\DataSources\PostModel.Destination.datasource" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\IDatabaseAdapter\IDatabaseAdapter.csproj">
+      <Project>{537a7098-f246-4a77-941d-eefdfa4c6569}</Project>
+      <Name>IDatabaseAdapter</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

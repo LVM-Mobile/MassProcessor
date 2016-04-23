@@ -8,9 +8,9 @@
     <ProjectGuid>{9B04E1CE-EFB0-45DA-8EF4-0DC0AD309779}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>XLSXDatabaseAdapter</RootNamespace>
+    <RootNamespace>DatabaseAdapter</RootNamespace>
     <AssemblyName>XLSXDatabaseAdapter</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -47,9 +47,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DatabaseAdapter\DatabaseAdapter.csproj">
-      <Project>{3CFC8A38-C190-4CD1-B421-F2933D5A9E17}</Project>
-      <Name>DatabaseAdapter</Name>
+    <ProjectReference Include="..\IDatabaseAdapter\IDatabaseAdapter.csproj">
+      <Project>{537a7098-f246-4a77-941d-eefdfa4c6569}</Project>
+      <Name>IDatabaseAdapter</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

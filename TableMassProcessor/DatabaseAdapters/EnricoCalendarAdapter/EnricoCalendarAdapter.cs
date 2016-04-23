@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using DatabaseAdapter;
 
-namespace EnricoCalendarAdapter
+namespace DatabaseAdapter
 {
-    public class EnricoCalendarAdapter:IDatabaseAdapter
+    public class EnricoCalendarAdapter: IDatabaseAdapter
     {
      
     public string  FileName

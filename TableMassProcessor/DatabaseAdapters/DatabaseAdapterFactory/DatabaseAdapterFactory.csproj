@@ -8,7 +8,7 @@
     <ProjectGuid>{E9B66F6F-39F0-4E1C-8880-7EEE65994CCD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DatabaseAdapterFactoryNS</RootNamespace>
+    <RootNamespace>DatabaseAdapter</RootNamespace>
     <AssemblyName>DatabaseAdapterFactory</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -45,13 +45,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DatabaseAdapter\DatabaseAdapter.csproj">
+    <ProjectReference Include="..\DatabaseAdapter\MSDatabaseAdapter.csproj">
       <Project>{3CFC8A38-C190-4CD1-B421-F2933D5A9E17}</Project>
-      <Name>DatabaseAdapter</Name>
+      <Name>MSDatabaseAdapter</Name>
     </ProjectReference>
     <ProjectReference Include="..\DBFDatabaseAdapter\DBFDatabaseAdapter.csproj">
       <Project>{B9561490-D977-4C76-96E4-55E37A76E416}</Project>
       <Name>DBFDatabaseAdapter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IDatabaseAdapter\IDatabaseAdapter.csproj">
+      <Project>{537a7098-f246-4a77-941d-eefdfa4c6569}</Project>
+      <Name>IDatabaseAdapter</Name>
     </ProjectReference>
     <ProjectReference Include="..\XLSDataAdapter\XLSDatabaseAdapter.csproj">
       <Project>{570C4E73-AC87-4382-917C-8E044F272211}</Project>
@@ -60,6 +64,10 @@
     <ProjectReference Include="..\XLSXDatabaseAdapter\XLSXDatabaseAdapter.csproj">
       <Project>{9B04E1CE-EFB0-45DA-8EF4-0DC0AD309779}</Project>
       <Name>XLSXDatabaseAdapter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\XmlDatabaseAdapter\XmlDatabaseAdapter.csproj">
+      <Project>{4e08a41f-51a2-4fc3-a76c-2525d8758676}</Project>
+      <Name>XmlDatabaseAdapter</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

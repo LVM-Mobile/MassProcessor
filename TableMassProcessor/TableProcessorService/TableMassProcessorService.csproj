@@ -55,7 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TableProcessor\TableProcessor.csproj">
-      <Project>{F74C9CE2-5D3E-4AE0-A6FC-8D79F5B40546}</Project>
+      <Project>{f74c9ce2-5d3e-4ae0-a6fc-8d79f5b40546}</Project>
       <Name>TableProcessor</Name>
     </ProjectReference>
   </ItemGroup>

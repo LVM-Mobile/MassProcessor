@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using DatabaseAdapter;
 using System.IO;
 using System.Data;
 using DotNetDBF;
 
-namespace DBFDatabaseAdapter
+namespace DatabaseAdapter
 {
     public class DBFDatabaseAdapter: IDatabaseAdapter, IDisposable
     {

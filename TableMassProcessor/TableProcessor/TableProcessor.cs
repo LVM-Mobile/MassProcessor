@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Collections.Generic;
 using RecordProcessor;
 using LVMSoft.Progress;
-using OfficeReporting;
+//using OfficeReporting;
 using DatabaseAdapter;
 
 namespace TableProcessorNS
@@ -316,10 +316,13 @@ namespace TableProcessorNS
             //we have sometihng to write after all
             if (data != null && outputDatabase.FileName != null)
             {
-                if(rp.OutputTemplate!=null){
+                /*TODO: Make output filters
+                if (rp.OutputTemplate!=null){
                     MakeReport(outputDatabase.FileName, rp.OutputTemplate, data);
                 }
-                else{
+                else
+            */    
+            {
                     //Write raw output
                     outputDatabase.Write(data);
                 }
@@ -331,7 +334,7 @@ namespace TableProcessorNS
             return rp.KnownFields;
         }
 
-        public void MakeReport(string filename, string templateName, DataTable outputData)
+ /*       public void MakeReport(string filename, string templateName, DataTable outputData)
         {
             string templateFileName = AppDomain.CurrentDomain.BaseDirectory + "reports/" + templateName;
             ExcelInterop output = new ExcelInterop();
@@ -370,7 +373,7 @@ namespace TableProcessorNS
             output.Dispose();
             //We dont need to write raw data            
         }
-
+*/
         public static List< KeyValuePair<string, string>> DeserializeFieldsMap(string listString)
         {
             //parse field mappings

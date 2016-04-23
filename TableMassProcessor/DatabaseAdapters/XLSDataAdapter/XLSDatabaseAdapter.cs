@@ -7,10 +7,10 @@ using org.in2bits.MyOle2;
 using org.in2bits.MyOle2.Metadata;
 using System.Data;
 using System.IO;
-using DatabaseAdapter;
+
 using System.Data.Common;
 
-namespace XLSDataAdapter
+namespace DatabaseAdapter
 {
     public class XLSDatabaseAdapter: IDatabaseAdapter
     {

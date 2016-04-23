@@ -4,10 +4,9 @@ using System.Text;
 using System.Data.Common;
 using System.Data;
 using OfficeOpenXml;
-using DatabaseAdapter;
 using System.IO;
 
-namespace XLSXDatabaseAdapter
+namespace DatabaseAdapter
 {
     public class XLSXDatabaseAdapter : IDatabaseAdapter, IDisposable
     {
@@ -39,7 +38,6 @@ namespace XLSXDatabaseAdapter
         }
 
        
-
         public string[] GetTables() { 
             Connect(FileName);
             List<string> tables = new List<string>();
@@ -86,27 +84,6 @@ namespace XLSXDatabaseAdapter
         
         public string NormTableName(string tablename) 
         {
-            /*TODO: Check if we need it
-            tablename.Replace('.', '#');
-            //Take from all
-            if (tablename.Length == 0)
-            {
-                tablename = "*";
-            }
-            switch (tablename[tablename.Length - 1])
-            {
-                case '\'':
-                    if (tablename[tablename.Length - 2] != '$')
-                        tablename += '$';
-                    break;
-                case '$':
-                    break; //add nothing
-                default:
-                    tablename += '$';
-                    break;
-            }
-            tablename = "[" + tablename + "]";
-             */ 
             return tablename;
         }
         

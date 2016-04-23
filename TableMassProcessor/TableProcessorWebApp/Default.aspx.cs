@@ -13,7 +13,6 @@ using System.IO;
 using TableProcessorNS;
 using RecordProcessor;
 using Progress;
-using DatabaseAdapterFactoryNS;
 using DatabaseAdapter;
 using System.Threading;
 using System.Reflection;

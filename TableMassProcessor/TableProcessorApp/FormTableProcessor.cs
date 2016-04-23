@@ -10,7 +10,7 @@ using TableProcessorNS;
 using RecordProcessor;
 using LVMSoft.Progress;
 using System.Text;
-using DatabaseAdapterFactoryNS;
+using DatabaseAdapter;
 
 
 namespace TableProcessorApp
@@ -91,6 +91,8 @@ namespace TableProcessorApp
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.groupBoxExtract = new System.Windows.Forms.GroupBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.textBoxOffset = new System.Windows.Forms.TextBox();
             this.CheckBoxEditMode = new System.Windows.Forms.CheckBox();
             this.comboBoxTableName = new System.Windows.Forms.ComboBox();
             this.buttonOpen = new System.Windows.Forms.Button();
@@ -107,8 +109,6 @@ namespace TableProcessorApp
             this.buttonSave = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
             this.textBoxOutputFileName = new System.Windows.Forms.TextBox();
-            this.textBoxOffset = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
             this.statusStrip1.SuspendLayout();
             this.groupBoxExtract.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -121,9 +121,9 @@ namespace TableProcessorApp
             // 
             // buttonStart
             // 
-            this.buttonStart.Location = new System.Drawing.Point(17, 276);
+            this.buttonStart.Location = new System.Drawing.Point(12, 269);
             this.buttonStart.Name = "buttonStart";
-            this.buttonStart.Size = new System.Drawing.Size(90, 27);
+            this.buttonStart.Size = new System.Drawing.Size(681, 24);
             this.buttonStart.TabIndex = 4;
             this.buttonStart.Text = "Start";
             this.buttonStart.Click += new System.EventHandler(this.buttonStart_Click);
@@ -133,21 +133,21 @@ namespace TableProcessorApp
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripProgressBar1,
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 322);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 301);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(705, 25);
+            this.statusStrip1.Size = new System.Drawing.Size(705, 22);
             this.statusStrip1.TabIndex = 21;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // toolStripProgressBar1
             // 
             this.toolStripProgressBar1.Name = "toolStripProgressBar1";
-            this.toolStripProgressBar1.Size = new System.Drawing.Size(120, 19);
+            this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 16);
             // 
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(0, 20);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(0, 17);
             // 
             // groupBoxExtract
             // 
@@ -162,19 +162,35 @@ namespace TableProcessorApp
             this.groupBoxExtract.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBoxExtract.Location = new System.Drawing.Point(0, 0);
             this.groupBoxExtract.Name = "groupBoxExtract";
-            this.groupBoxExtract.Size = new System.Drawing.Size(705, 106);
+            this.groupBoxExtract.Size = new System.Drawing.Size(705, 131);
             this.groupBoxExtract.TabIndex = 23;
             this.groupBoxExtract.TabStop = false;
             this.groupBoxExtract.Text = "Extract";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(12, 95);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(131, 13);
+            this.label5.TabIndex = 30;
+            this.label5.Text = "Begin processing from row";
+            // 
+            // textBoxOffset
+            // 
+            this.textBoxOffset.Location = new System.Drawing.Point(184, 92);
+            this.textBoxOffset.Name = "textBoxOffset";
+            this.textBoxOffset.Size = new System.Drawing.Size(84, 20);
+            this.textBoxOffset.TabIndex = 29;
             // 
             // CheckBoxEditMode
             // 
             this.CheckBoxEditMode.AutoSize = true;
             this.CheckBoxEditMode.Checked = true;
             this.CheckBoxEditMode.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CheckBoxEditMode.Location = new System.Drawing.Point(221, 19);
+            this.CheckBoxEditMode.Location = new System.Drawing.Point(184, 16);
             this.CheckBoxEditMode.Name = "CheckBoxEditMode";
-            this.CheckBoxEditMode.Size = new System.Drawing.Size(93, 21);
+            this.CheckBoxEditMode.Size = new System.Drawing.Size(73, 17);
             this.CheckBoxEditMode.TabIndex = 28;
             this.CheckBoxEditMode.Text = "Edit mode";
             this.CheckBoxEditMode.UseVisualStyleBackColor = true;
@@ -182,17 +198,17 @@ namespace TableProcessorApp
             // comboBoxTableName
             // 
             this.comboBoxTableName.FormattingEnabled = true;
-            this.comboBoxTableName.Location = new System.Drawing.Point(221, 75);
+            this.comboBoxTableName.Location = new System.Drawing.Point(184, 65);
             this.comboBoxTableName.Name = "comboBoxTableName";
-            this.comboBoxTableName.Size = new System.Drawing.Size(374, 24);
+            this.comboBoxTableName.Size = new System.Drawing.Size(464, 21);
             this.comboBoxTableName.TabIndex = 27;
             this.comboBoxTableName.SelectedIndexChanged += new System.EventHandler(this.comboBoxTableName_SelectedIndexChanged);
             // 
             // buttonOpen
             // 
-            this.buttonOpen.Location = new System.Drawing.Point(614, 45);
+            this.buttonOpen.Location = new System.Drawing.Point(654, 40);
             this.buttonOpen.Name = "buttonOpen";
-            this.buttonOpen.Size = new System.Drawing.Size(47, 22);
+            this.buttonOpen.Size = new System.Drawing.Size(39, 19);
             this.buttonOpen.TabIndex = 26;
             this.buttonOpen.Text = "...";
             this.buttonOpen.UseVisualStyleBackColor = true;
@@ -200,9 +216,9 @@ namespace TableProcessorApp
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(14, 75);
+            this.label3.Location = new System.Drawing.Point(12, 68);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(164, 28);
+            this.label3.Size = new System.Drawing.Size(136, 24);
             this.label3.TabIndex = 25;
             this.label3.Text = "Selected table";
             // 
@@ -212,18 +228,18 @@ namespace TableProcessorApp
             this.textBoxInputFileName.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.FileSystem;
             this.textBoxInputFileName.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::TableProcessorApp.Properties.Settings.Default, "InputDB", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.textBoxInputFileName.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.textBoxInputFileName.Location = new System.Drawing.Point(221, 45);
+            this.textBoxInputFileName.Location = new System.Drawing.Point(184, 39);
             this.textBoxInputFileName.Name = "textBoxInputFileName";
-            this.textBoxInputFileName.Size = new System.Drawing.Size(374, 22);
+            this.textBoxInputFileName.Size = new System.Drawing.Size(464, 20);
             this.textBoxInputFileName.TabIndex = 24;
             this.textBoxInputFileName.Text = global::TableProcessorApp.Properties.Settings.Default.InputDB;
             this.textBoxInputFileName.TextChanged += new System.EventHandler(this.textBoxInputFileName_TextChanged);
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(14, 46);
+            this.label2.Location = new System.Drawing.Point(12, 42);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(225, 28);
+            this.label2.Size = new System.Drawing.Size(166, 24);
             this.label2.TabIndex = 23;
             this.label2.Text = "Database path (tables Dir/File)";
             // 
@@ -235,18 +251,18 @@ namespace TableProcessorApp
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.comboBoxProcessor);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox1.Location = new System.Drawing.Point(0, 106);
+            this.groupBox1.Location = new System.Drawing.Point(0, 131);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(705, 100);
+            this.groupBox1.Size = new System.Drawing.Size(705, 87);
             this.groupBox1.TabIndex = 24;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Transform";
             // 
             // buttonMapFields
             // 
-            this.buttonMapFields.Location = new System.Drawing.Point(614, 62);
+            this.buttonMapFields.Location = new System.Drawing.Point(654, 55);
             this.buttonMapFields.Name = "buttonMapFields";
-            this.buttonMapFields.Size = new System.Drawing.Size(47, 22);
+            this.buttonMapFields.Size = new System.Drawing.Size(39, 19);
             this.buttonMapFields.TabIndex = 26;
             this.buttonMapFields.Text = "...";
             this.buttonMapFields.UseVisualStyleBackColor = true;
@@ -254,33 +270,33 @@ namespace TableProcessorApp
             // 
             // textBoxFieldsMapping
             // 
-            this.textBoxFieldsMapping.Location = new System.Drawing.Point(221, 62);
+            this.textBoxFieldsMapping.Location = new System.Drawing.Point(184, 54);
             this.textBoxFieldsMapping.Name = "textBoxFieldsMapping";
-            this.textBoxFieldsMapping.Size = new System.Drawing.Size(374, 22);
+            this.textBoxFieldsMapping.Size = new System.Drawing.Size(464, 20);
             this.textBoxFieldsMapping.TabIndex = 24;
             // 
             // label4
             // 
-            this.label4.Location = new System.Drawing.Point(14, 66);
+            this.label4.Location = new System.Drawing.Point(12, 57);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(164, 28);
+            this.label4.Size = new System.Drawing.Size(136, 24);
             this.label4.TabIndex = 23;
             this.label4.Text = "Fields to process";
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(14, 35);
+            this.label1.Location = new System.Drawing.Point(12, 30);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(120, 26);
+            this.label1.Size = new System.Drawing.Size(100, 23);
             this.label1.TabIndex = 22;
             this.label1.Text = "Processor module";
             // 
             // comboBoxProcessor
             // 
             this.comboBoxProcessor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxProcessor.Location = new System.Drawing.Point(221, 31);
+            this.comboBoxProcessor.Location = new System.Drawing.Point(184, 27);
             this.comboBoxProcessor.Name = "comboBoxProcessor";
-            this.comboBoxProcessor.Size = new System.Drawing.Size(374, 24);
+            this.comboBoxProcessor.Size = new System.Drawing.Size(464, 21);
             this.comboBoxProcessor.TabIndex = 21;
             this.comboBoxProcessor.SelectedIndexChanged += new System.EventHandler(this.comboBoxProcessor_SelectedIndexChanged);
             // 
@@ -291,18 +307,18 @@ namespace TableProcessorApp
             this.groupBox2.Controls.Add(this.textBoxOutputFileName);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.groupBox2.Location = new System.Drawing.Point(0, 206);
+            this.groupBox2.Location = new System.Drawing.Point(0, 218);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(705, 53);
+            this.groupBox2.Size = new System.Drawing.Size(705, 45);
             this.groupBox2.TabIndex = 25;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Load";
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(614, 21);
+            this.buttonSave.Location = new System.Drawing.Point(654, 18);
             this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(47, 22);
+            this.buttonSave.Size = new System.Drawing.Size(39, 19);
             this.buttonSave.TabIndex = 20;
             this.buttonSave.Text = "...";
             this.buttonSave.UseVisualStyleBackColor = true;
@@ -310,48 +326,32 @@ namespace TableProcessorApp
             // 
             // label10
             // 
-            this.label10.Location = new System.Drawing.Point(14, 24);
+            this.label10.Location = new System.Drawing.Point(12, 18);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(225, 20);
+            this.label10.Size = new System.Drawing.Size(166, 20);
             this.label10.TabIndex = 19;
             this.label10.Text = "Database path (tables Dir/File)";
             // 
             // textBoxOutputFileName
             // 
-            this.textBoxOutputFileName.Location = new System.Drawing.Point(221, 21);
+            this.textBoxOutputFileName.Location = new System.Drawing.Point(184, 18);
             this.textBoxOutputFileName.Name = "textBoxOutputFileName";
-            this.textBoxOutputFileName.Size = new System.Drawing.Size(374, 22);
+            this.textBoxOutputFileName.Size = new System.Drawing.Size(464, 19);
             this.textBoxOutputFileName.TabIndex = 18;
             this.textBoxOutputFileName.Text = "f:\\TableProcessor\\GroupCounter\\tests\\testdata2.csv";
             this.textBoxOutputFileName.TextChanged += new System.EventHandler(this.textBoxOutputFileName_TextChanged);
             // 
-            // textBoxOffset
-            // 
-            this.textBoxOffset.Location = new System.Drawing.Point(495, 17);
-            this.textBoxOffset.Name = "textBoxOffset";
-            this.textBoxOffset.Size = new System.Drawing.Size(100, 22);
-            this.textBoxOffset.TabIndex = 29;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(419, 22);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(70, 17);
-            this.label5.TabIndex = 30;
-            this.label5.Text = "Start from";
-            // 
             // FormTableProcessor
             // 
-            this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
-            this.ClientSize = new System.Drawing.Size(705, 347);
+            this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
+            this.ClientSize = new System.Drawing.Size(705, 323);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBoxExtract);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.buttonStart);
             this.Name = "FormTableProcessor";
-            this.Text = "Table Processor";
+            this.Text = "Table Mass Processor";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
@@ -393,7 +393,9 @@ namespace TableProcessorApp
                
                 modulenames[title_assembly.Title] =  path;
                }catch(Exception ex)
-                {}
+                {
+
+                }
             }
 
             comboBoxProcessor.DisplayMember = "Key";

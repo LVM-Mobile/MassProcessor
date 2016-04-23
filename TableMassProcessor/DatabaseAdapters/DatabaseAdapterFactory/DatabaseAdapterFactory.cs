@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using DatabaseAdapter;
-using XLSDataAdapter;
-using XLSXDatabaseAdapter;
 
-namespace DatabaseAdapterFactoryNS
+
+namespace DatabaseAdapter
 {
     public class DatabaseAdapterFactory
     {
@@ -32,11 +30,13 @@ namespace DatabaseAdapterFactoryNS
                     case ".xls":
                         return new XLSDatabaseAdapter();
                     case ".xlsx":
-                        return new XLSXDatabaseAdapter.XLSXDatabaseAdapter();
+                        return new XLSXDatabaseAdapter();
                     case ".csv":
                         return new OleDbDatabaseAdapter();
                     case ".dbf":
-                        return new DBFDatabaseAdapter.DBFDatabaseAdapter();
+                        return new DBFDatabaseAdapter();
+                    case ".xml":
+                        return new XmlDatabaseAdapter();
                 }
                 throw new Exception("Not found right DatabaseAdapter");
             }
@@ -56,11 +56,14 @@ namespace DatabaseAdapterFactoryNS
                     case ".xls":
                         return new XLSDatabaseAdapter();
                     case ".xlsx":
-                        return new XLSXDatabaseAdapter.XLSXDatabaseAdapter();
+                        return new XLSXDatabaseAdapter();
                     case ".csv":
                         return new OleDbDatabaseAdapter();
                     case ".dbf":
-                        return new DBFDatabaseAdapter.DBFDatabaseAdapter();
+                        return new DBFDatabaseAdapter();
+                    case ".xml":
+                         return new XmlDatabaseAdapter();
+                   
                 }
                 throw new Exception("Not found right DatabaseAdapter");
         }

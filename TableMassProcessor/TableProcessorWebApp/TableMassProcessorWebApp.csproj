@@ -102,9 +102,9 @@
       <Project>{E9B66F6F-39F0-4E1C-8880-7EEE65994CCD}</Project>
       <Name>DatabaseAdapterFactory</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DatabaseAdapters\DatabaseAdapter\DatabaseAdapter.csproj">
-      <Project>{3CFC8A38-C190-4CD1-B421-F2933D5A9E17}</Project>
-      <Name>DatabaseAdapter</Name>
+    <ProjectReference Include="..\DatabaseAdapters\IDatabaseAdapter\IDatabaseAdapter.csproj">
+      <Project>{537a7098-f246-4a77-941d-eefdfa4c6569}</Project>
+      <Name>IDatabaseAdapter</Name>
     </ProjectReference>
     <ProjectReference Include="..\Libraries\Progress\Progress.csproj">
       <Project>{bb938f25-4b88-48d4-a8a3-f7ddefc3f550}</Project>
