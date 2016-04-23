@@ -1,0 +1,20 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="CharectersConverter.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="ConvertPairs" Type="System.String" Scope="User">
+      <Value Profile="(Default)">
+                    &lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+                        &lt;string&gt;сc&lt;/string&gt;
+                        &lt;string&gt;аa&lt;/string&gt;
+                        &lt;string&gt;бb&lt;/string&gt;
+                        &lt;string&gt;тt&lt;/string&gt;
+                        &lt;string&gt;оo&lt;/string&gt;
+                        &lt;string&gt;уy&lt;/string&gt;
+                        &lt;string&gt;рp&lt;/string&gt;
+                        &lt;string&gt;гr&lt;/string&gt;
+                    &lt;/ArrayOfString&gt;
+                </Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

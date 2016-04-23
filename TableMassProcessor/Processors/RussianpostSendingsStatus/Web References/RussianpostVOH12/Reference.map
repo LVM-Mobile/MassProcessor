@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DiscoveryClientResultsFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Results>
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="http://voh.russianpost.ru:8080/niips-operationhistory-web/OperationHistory12?wsdl" filename="OperationHistory12.wsdl" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://voh.russianpost.ru:8080/niips-operationhistory-web/OperationHistory12?xsd=2" filename="OperationHistory12.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://voh.russianpost.ru:8080/niips-operationhistory-web/OperationHistory12?xsd=3" filename="OperationHistory120.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://voh.russianpost.ru:8080/niips-operationhistory-web/OperationHistory12?xsd=1" filename="OperationHistory121.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://voh.russianpost.ru:8080/niips-operationhistory-web/OperationHistory12?xsd=4" filename="OperationHistory122.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://voh.russianpost.ru:8080/niips-operationhistory-web/OperationHistory12?xsd=5" filename="OperationHistory123.xsd" />
+  </Results>
+</DiscoveryClientResultsFile>

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.kayaposoft.com/enrico/ws/v1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://www.kayaposoft.com/enrico/ws/v1.0/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.kayaposoft.com/enrico/ws/v1.0/">
+      <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+      <xsd:import namespace="http://schemas.xmlsoap.org/wsdl/" />
+      <xsd:complexType name="DateType">
+        <xsd:sequence>
+          <xsd:element name="day" type="xsd:int" />
+          <xsd:element name="month" type="xsd:int" />
+          <xsd:element name="year" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="dayOfWeek" type="xsd:int" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="PublicHolidayType">
+        <xsd:sequence>
+          <xsd:element name="date" type="tns:DateType" />
+          <xsd:element name="localName" type="xsd:string" />
+          <xsd:element name="englishName" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="note" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="PublicHolidayCollectionType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="error" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="publicHolidays" type="tns:PublicHolidayType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="IsPublicHolidayType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="error" type="xsd:string" />
+          <xsd:element name="isPublicHoliday" type="xsd:boolean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="SupportedCountryType">
+        <xsd:sequence>
+          <xsd:element name="fullName" type="xsd:string" />
+          <xsd:element name="countryCode" type="xsd:string" />
+          <xsd:element name="fromDate" type="tns:DateType" />
+          <xsd:element name="toDate" type="tns:DateType" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="regions" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="SupportedCountriesType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="error" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="supportedCountries" type="tns:SupportedCountryType" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="getPublicHolidaysForMonthRequest">
+    <wsdl:part name="month" type="xsd:integer" />
+    <wsdl:part name="year" type="xsd:integer" />
+    <wsdl:part name="country" type="xsd:string" />
+    <wsdl:part name="region" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getPublicHolidaysForMonthResponse">
+    <wsdl:part name="return" type="tns:PublicHolidayCollectionType" />
+  </wsdl:message>
+  <wsdl:message name="getPublicHolidaysForYearRequest">
+    <wsdl:part name="year" type="xsd:integer" />
+    <wsdl:part name="country" type="xsd:string" />
+    <wsdl:part name="region" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getPublicHolidaysForYearResponse">
+    <wsdl:part name="return" type="tns:PublicHolidayCollectionType" />
+  </wsdl:message>
+  <wsdl:message name="getPublicHolidaysForDateRangeRequest">
+    <wsdl:part name="fromDate" type="tns:DateType" />
+    <wsdl:part name="toDate" type="tns:DateType" />
+    <wsdl:part name="country" type="xsd:string" />
+    <wsdl:part name="region" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getPublicHolidaysForDateRangeResponse">
+    <wsdl:part name="return" type="tns:PublicHolidayCollectionType" />
+  </wsdl:message>
+  <wsdl:message name="isPublicHolidayRequest">
+    <wsdl:part name="date" type="tns:DateType" />
+    <wsdl:part name="country" type="xsd:string" />
+    <wsdl:part name="region" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="isPublicHolidayResponse">
+    <wsdl:part name="return" type="tns:IsPublicHolidayType" />
+  </wsdl:message>
+  <wsdl:message name="getSupportedCountriesRequest" />
+  <wsdl:message name="getSupportedCountriesResponse">
+    <wsdl:part name="return" type="tns:SupportedCountriesType" />
+  </wsdl:message>
+  <wsdl:portType name="enricoPortType">
+    <wsdl:operation name="getPublicHolidaysForMonth">
+      <documentation>Gets public holidays for month</documentation>
+      <wsdl:input message="tns:getPublicHolidaysForMonthRequest" />
+      <wsdl:output message="tns:getPublicHolidaysForMonthResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getPublicHolidaysForYear">
+      <documentation>Gets public holidays for year</documentation>
+      <wsdl:input message="tns:getPublicHolidaysForYearRequest" />
+      <wsdl:output message="tns:getPublicHolidaysForYearResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getPublicHolidaysForDateRange">
+      <documentation>Gets public holidays for date range</documentation>
+      <wsdl:input message="tns:getPublicHolidaysForDateRangeRequest" />
+      <wsdl:output message="tns:getPublicHolidaysForDateRangeResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="isPublicHoliday">
+      <documentation>Checks if the specified date is public holiday</documentation>
+      <wsdl:input message="tns:isPublicHolidayRequest" />
+      <wsdl:output message="tns:isPublicHolidayResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getSupportedCountries">
+      <documentation>Gets the list of supported countries</documentation>
+      <wsdl:input message="tns:getSupportedCountriesRequest" />
+      <wsdl:output message="tns:getSupportedCountriesResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="enricoBinding" type="tns:enricoPortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc" />
+    <wsdl:operation name="getPublicHolidaysForMonth">
+      <soap:operation soapAction="http://www.kayaposoft.com/enrico/ws/v1.0/#getPublicHolidaysForMonth" style="rpc" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="http://www.kayaposoft.com/enrico/ws/v1.0/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="http://www.kayaposoft.com/enrico/ws/v1.0/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPublicHolidaysForYear">
+      <soap:operation soapAction="http://www.kayaposoft.com/enrico/ws/v1.0/#getPublicHolidaysForYear" style="rpc" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="http://www.kayaposoft.com/enrico/ws/v1.0/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="http://www.kayaposoft.com/enrico/ws/v1.0/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPublicHolidaysForDateRange">
+      <soap:operation soapAction="http://www.kayaposoft.com/enrico/ws/v1.0/#getPublicHolidaysForDateRange" style="rpc" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="http://www.kayaposoft.com/enrico/ws/v1.0/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="http://www.kayaposoft.com/enrico/ws/v1.0/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="isPublicHoliday">
+      <soap:operation soapAction="http://www.kayaposoft.com/enrico/ws/v1.0/#isPublicHoliday" style="rpc" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="http://www.kayaposoft.com/enrico/ws/v1.0/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="http://www.kayaposoft.com/enrico/ws/v1.0/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getSupportedCountries">
+      <soap:operation soapAction="http://www.kayaposoft.com/enrico/ws/v1.0/#getSupportedCountries" style="rpc" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="http://www.kayaposoft.com/enrico/ws/v1.0/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="http://www.kayaposoft.com/enrico/ws/v1.0/" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="enrico">
+    <wsdl:port name="enricoPort" binding="tns:enricoBinding">
+      <soap:address location="http://kayaposoft.com/enrico/ws/v1.0/index.php" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

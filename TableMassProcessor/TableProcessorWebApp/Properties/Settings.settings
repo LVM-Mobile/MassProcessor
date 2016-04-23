@@ -1,0 +1,32 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="TableProcessorWebApp.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="Modules" Type="System.Collections.Specialized.StringCollection" Scope="Application">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;string&gt;RussianpostSendingsStatus.dll&lt;/string&gt;
+  &lt;string&gt;CharectersConverter.dll&lt;/string&gt;
+  &lt;string&gt;GroupCounter.dll&lt;/string&gt;
+  &lt;string&gt;KladrImporter.dll&lt;/string&gt;
+  &lt;string&gt;SmartGroup.dll&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
+    <Setting Name="DownloadFileNameParamName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">fn</Value>
+    </Setting>
+    <Setting Name="DownloadExtentionParamName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">ex</Value>
+    </Setting>
+    <Setting Name="DownloadFileAliasNameParamName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">fnla</Value>
+    </Setting>
+    <Setting Name="AddressModel2Entities" Type="(Connection string)" Scope="Application">
+      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;ConnectionString&gt;metadata=res://*/AddressesModel2.csdl|res://*/AddressesModel2.ssdl|res://*/AddressesModel2.msl;provider=System.Data.SqlClient;provider connection string=&amp;amp;quot;Data Source=WEBIIS\sqlexpress;Initial Catalog=KLADRDB;Persist Security Info=false;User ID=addressesreader;Password=Address2013;MultipleActiveResultSets=True&amp;amp;quot;&lt;/ConnectionString&gt;
+&lt;/SerializableConnectionString&gt;</DesignTimeValue>
+      <Value Profile="(Default)">metadata=res://*/AddressesModel2.csdl|res://*/AddressesModel2.ssdl|res://*/AddressesModel2.msl;provider=System.Data.SqlClient;provider connection string=&amp;quot;Data Source=WEBIIS\sqlexpress;Initial Catalog=KLADRDB;Persist Security Info=false;User ID=addressesreader;Password=Address2013;MultipleActiveResultSets=True&amp;quot;</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
