@@ -40,15 +40,24 @@ namespace DatabaseAdapter
         {
            filename = ifilename;
            doc = XDocument.Load(filename);
-            data = doc.Descendants();
+            //XML Zero level node is root
+            data = doc.Elements().First().Elements();
         }
 
+        // Set filter - projects, tasks,
         public string[] GetTables()
         {
             Connect(FileName);
             List<string> tables = new List<string>();
-            //XML First level nodes =  table rows 
-            tables.Add(data.First().Value);
+           
+            //First level nodes =  table rows 
+            foreach (var table in data)
+            {
+                string tableName = table.Name.LocalName;
+                if(!tables.Contains(tableName))
+                  tables.Add(tableName);
+            }
+
             return tables.ToArray();
         }
 
@@ -56,11 +65,14 @@ namespace DatabaseAdapter
         {
             //XML second level nodes = fields
             Dictionary<string, int> columnNames = new Dictionary<string, int>();
-            XElement firstNode = data.First();
+
+            IEnumerable<XElement> table = doc.Elements().First().Elements(tablename);
+            var rows = table.First().Elements();
+            var fields = rows.First().Elements();
             int i = 0;
-            foreach (var fieldNode in firstNode.Descendants())
+            foreach (var fieldNode in fields)
             {
-                string fieldName = fieldNode.Value;
+                string fieldName = fieldNode.Name.LocalName;
                 columnNames[fieldName] = i++;
 
             }

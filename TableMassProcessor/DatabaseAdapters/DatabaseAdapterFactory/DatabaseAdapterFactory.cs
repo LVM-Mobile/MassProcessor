@@ -10,9 +10,11 @@ namespace DatabaseAdapter
     {
         static Dictionary<string, string> knownFileTypes = new Dictionary<string, string>()
         {
-         {"Excel 2000/2003", "*.xls" },
-         {"Excel 2007/2012", "*.xlsx" },
-         {"DBF", "*.dbf" }
+              {"Excel 2000/2003", "*.xls" },
+              {"Excel 2007/2012", "*.xlsx" },
+              {"DBF", "*.dbf" },
+              {"XML", "*.xml" },
+              {"Web services", "*.url" }
 
         };
         
@@ -61,8 +63,8 @@ namespace DatabaseAdapter
                         return new OleDbDatabaseAdapter();
                     case ".dbf":
                         return new DBFDatabaseAdapter();
-                    case ".xml":
-                         return new XmlDatabaseAdapter();
+                   // case ".xml":
+                   //      return new XmlDatabaseAdapter();
                    
                 }
                 throw new Exception("Not found right DatabaseAdapter");

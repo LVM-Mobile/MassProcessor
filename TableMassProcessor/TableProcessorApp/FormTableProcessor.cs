@@ -378,8 +378,10 @@ namespace TableProcessorApp
 
 		private void Form1_Load(object sender, System.EventArgs e)
 		{
-			//Take plugins
-			modulesdir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"modules");
+
+
+            //Take processor plugins
+            modulesdir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"modules");
 			
             comboBoxProcessor.Items.Clear();
 			string [] files = Directory.GetFiles(modulesdir, "*.dll");
