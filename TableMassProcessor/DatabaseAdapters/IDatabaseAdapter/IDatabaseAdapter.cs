@@ -11,7 +11,13 @@ namespace DatabaseAdapter
     {
         string FileName { get; set; }
         Dictionary<string, string> KnownFileTypes { get; }
-
+      
+        /// <summary>
+        /// Clone complete database
+        /// </summary>
+        /// <param name="outDatabase"></param>
+        void Clone(IDatabaseAdapter outDatabase );
+        //TODO: void Restore();
         void Connect();
         void Connect(string filename);
         string[] GetTables();

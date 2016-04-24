@@ -10,42 +10,31 @@ using DatabaseAdapter;
 
 namespace DatabaseAdapter
 {
-    public class XmlDatabaseAdapter: IDatabaseAdapter
+    public class XmlDatabaseAdapter: BaseFileDatabaseAdapter
     {
-        string filename;
+      
         XDocument doc;
         IEnumerable<XElement> data;
         int iRow;
         DataTable dataTable;
-
+        
+    
         public XmlDatabaseAdapter()
         {
-            knownFileTypes["XML documents"] = "*.xml";
-           
+            KnownFileTypes["XML documents"] = "*.xml";
         }
 
-        public string FileName { get { return filename; }  set { filename = value; } }
-
-        public Dictionary<string, string> KnownFileTypes
-        { get { return knownFileTypes; } }
-        private Dictionary<string, string> knownFileTypes = new Dictionary<string, string>();
-
-        public void Connect()
+       
+         override public void Connect()
         {
-            Connect(FileName);
-        }
-
-        
-        public void Connect(string ifilename)
-        {
-           filename = ifilename;
-           doc = XDocument.Load(filename);
+            doc = XDocument.Load(FileName);
             //XML Zero level node is root
             data = doc.Elements().First().Elements();
         }
 
+      
         // Set filter - projects, tasks,
-        public string[] GetTables()
+        override public string[] GetTables()
         {
             Connect(FileName);
             List<string> tables = new List<string>();
@@ -61,13 +50,12 @@ namespace DatabaseAdapter
             return tables.ToArray();
         }
 
-        public Dictionary<string, int> GetFields(string tablename)
+        override public Dictionary<string, int> GetFields(string tablename)
         {
             //XML second level nodes = fields
             Dictionary<string, int> columnNames = new Dictionary<string, int>();
-
-            IEnumerable<XElement> table = doc.Elements().First().Elements(tablename);
-            var rows = table.First().Elements();
+            var table = from d in data where d.Name == tablename select d;
+            var rows = from t in table select t.Elements();
             var fields = rows.First().Elements();
             int i = 0;
             foreach (var fieldNode in fields)
@@ -79,12 +67,8 @@ namespace DatabaseAdapter
             return columnNames;
         }
 
-        public DbDataReader Execute(string sql)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SetTable(string tablename)
+      
+        override public void SetTable(string tablename)
         {
             //Set variables
             dataTable = new DataTable(tablename);
@@ -96,38 +80,24 @@ namespace DatabaseAdapter
             }
         }
 
-        public string NormTableName(string tablename)
-        {
-            return tablename;
-        }
-
-        public void Write(DataTable table)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Close()
+     
+        override public void Close()
         {
            
         }
 
-        public void FirstRecord()
+         override public void FirstRecord()
         {
             iRow = 0; 
         }
 
-        public void SeekRecord(int position)
+         override public void SeekRecord(int position)
         {
             iRow = position;
            
         }
 
-        public IDataRecord CurrentRecord()
-        {
-            throw new NotImplementedException();
-        }
-
-        public DataRow CurrentRow()
+         override public DataRow CurrentRow()
         {
             DataRow row = dataTable.NewRow();
 
@@ -140,23 +110,14 @@ namespace DatabaseAdapter
             return row;
         }
 
-        public void UpdateRow(int irow, DataRow row)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool NextRecord()
+         override public bool NextRecord()
         {
             iRow++;
             return iRow < data.Count();
         }
 
-        public void Write(string filename)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int GetRowsCount()
+     
+         override public int GetRowsCount()
         {
             return data.Count();
         }

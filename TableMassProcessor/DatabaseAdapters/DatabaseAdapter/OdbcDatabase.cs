@@ -10,22 +10,16 @@ using System.Globalization;
 
 namespace DatabaseAdapter
 {
-    public class OdbcDatabaseAdapter : IDatabaseAdapter, IDisposable
+    public class OdbcDatabaseAdapter : BaseFileDatabaseAdapter, IDisposable
     {
         OdbcConnection inConn;        
         private string ConnectionString;
-        public string FileName {get;set;}
+       
         
         private string basedir;
         private string extension;
 
-        public Dictionary<string, string> KnownFileTypes
-        { get { return knownFileTypes; } }
-        public Dictionary<string, string> knownFileTypes = new Dictionary<string, string>();
-
-        
-
-        
+       
         public Dictionary<string, int> GetFields(string tablename)
         {
             Dictionary<string, int> FieldsMap = new Dictionary<string, int>();
@@ -60,25 +54,16 @@ namespace DatabaseAdapter
 
         public void Connect()
         {
-            Connect(FileName);
-        }
-        public void Close()
-        {
-            inConn.Close();
-        }
-
-        public void Connect(string filename)
-        {
             //Check if FileName - is dir (usable for multiple dbf files processing)
-            if (System.IO.Directory.Exists(filename))
+            if (System.IO.Directory.Exists(FileName))
             {
                 basedir = FileName;
                 extension = ""; //take from dir OR ask
             }
             else
             {
-                basedir = Path.GetDirectoryName(filename);
-                extension = Path.GetExtension(filename);
+                basedir = Path.GetDirectoryName(FileName);
+                extension = Path.GetExtension(FileName);
             }
 
             //Test known formats
@@ -99,19 +84,19 @@ namespace DatabaseAdapter
                     */
                     break;
                 case ".xls":
-                    ConnectionString = @"Driver={Microsoft Excel Driver (*.xls)};DriverId=790;Dbq=" + filename;
+                    ConnectionString = @"Driver={Microsoft Excel Driver (*.xls)};DriverId=790;Dbq=" + FileName;
                     break;
                 case ".xlsx":
-                    
+
                     //ConnectionString = Settings.Default.XLSX;
-                    ConnectionString = @"DRIVER=Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb);ReadOnly=1;PageTimeout=5;maxbuffersize=2048;MaxScanRows=8;DriverId=1046;DBQ="+filename;
+                    ConnectionString = @"DRIVER=Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb);ReadOnly=1;PageTimeout=5;maxbuffersize=2048;MaxScanRows=8;DriverId=1046;DBQ=" + FileName;
                     //ConnectionString = @"Dsn=Excel Files;dbq=" + filename + ";defaultdir=" + basedir + ";driverid=1046;maxbuffersize=2048;pagetimeout=5";
-//                    @"DRIVER={Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)};ReadOnly=1;PageTimeout=5;MaxScanRows=8;FIL=excel 12.0;DriverId=1046;DBQ=" + filename;
-//                    ConnectionString = @"Driver={Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm,*.xlsb)};DriverID=1046; READONLY=0;DBQ=" + filename;
+                    //                    @"DRIVER={Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)};ReadOnly=1;PageTimeout=5;MaxScanRows=8;FIL=excel 12.0;DriverId=1046;DBQ=" + filename;
+                    //                    ConnectionString = @"Driver={Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm,*.xlsb)};DriverID=1046; READONLY=0;DBQ=" + filename;
                     //ConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + filename + "Extended Properties=\"Excel 12.0 Xml;HDR=YES;IMEX=1\";";
                     break;
                 case ".csv":
-                    //LumenWorks.Framework.IO.Csv.CsvReader();
+                    //TODO:LumenWorks.Framework.IO.Csv.CsvReader();
                     break;
 
                 default:
@@ -120,6 +105,12 @@ namespace DatabaseAdapter
             inConn = new OdbcConnection(ConnectionString);
         }
 
+        public void Close()
+        {
+            inConn.Close();
+        }
+
+        
         public string[] GetTables()
         {
             Connect(FileName);
@@ -154,7 +145,7 @@ namespace DatabaseAdapter
         //Write Whole Table data
         public void Write(DataTable data)
         {
-         
+          //TODO :CSV Writer
             //Set list separator from This Machine regional Settings
             CsvWriter.columnDelimiter = CultureInfo.CurrentCulture.TextInfo.ListSeparator;
             StreamWriter writer = new StreamWriter(FileName);

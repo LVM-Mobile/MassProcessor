@@ -10,23 +10,16 @@ using DatabaseAdapter;
 
 namespace DatabaseAdapter
 {
-    public class OleDbDatabaseAdapter : IDatabaseAdapter, IDisposable
+    public class OleDbDatabaseAdapter : BaseFileDatabaseAdapter, IDisposable
     {
         OleDbConnection inConn;        
         private string ConnectionString;
-
-        public string FileName { get; set; }
-        public Dictionary<string, string> KnownFileTypes
-        { get { return knownFileTypes; } }
-        private Dictionary<string, string> knownFileTypes = new Dictionary<string, string>();
-        
         private string basedir;
         private string extension;
 
         
         public OleDbDatabaseAdapter()
         {
-            
             KnownFileTypes["Excel 2000/2003"] = "*.xls";
             KnownFileTypes["Excel 2000/2007"] = "*.xlsx";
             KnownFileTypes["DBase"] = "*.dbf";
@@ -35,47 +28,43 @@ namespace DatabaseAdapter
 
         public void Connect()
         {
-            Connect(FileName);
-        }
-        public void Close()
-        {
-            inConn.Close();
-        }
-
-        public void Connect(string filename)
-        {
             //Check if FileName - is dir (usable for multiple dbf files processing)
-            if (System.IO.Directory.Exists(filename))
+            if (System.IO.Directory.Exists(FileName))
             {
                 basedir = FileName;
                 extension = ""; //take from dir OR ask
             }
             else
             {
-                basedir = Path.GetDirectoryName(filename);
-                extension = Path.GetExtension(filename);
+                basedir = Path.GetDirectoryName(FileName);
+                extension = Path.GetExtension(FileName);
             }
 
             //Test known formats
             switch (extension)
             {
                 case ".dbf":
-                    ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + filename + ";Extended Properties=dBASE IV;User ID=Admin;Password=";
+                    ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + FileName + ";Extended Properties=dBASE IV;User ID=Admin;Password=";
                     break;
                 case ".xls":
-                    ConnectionString = string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=\"{0}\";Extended Properties=\"Excel 8.0;HDR=YES;IMEX=1\"",  filename);
+                    ConnectionString = string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=\"{0}\";Extended Properties=\"Excel 8.0;HDR=YES;IMEX=1\"", FileName);
                     break;
                 case ".xlsx":
-                    ConnectionString = string.Format("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=\"{0}\";Extended Properties=\"Excel 12.0 Xml;HDR=YES;IMEX=1\";",  filename);
+                    ConnectionString = string.Format("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=\"{0}\";Extended Properties=\"Excel 12.0 Xml;HDR=YES;IMEX=1\";", FileName);
                     break;
                 case ".csv":
-            //        ConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + filename + "Extended Properties=\"Excel 12.0 Xml;HDR=YES;IMEX=1\";";
+                    // ConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + filename + "Extended Properties=\"Excel 12.0 Xml;HDR=YES;IMEX=1\";";
                     break;
 
                 default:
                     throw new Exception("unknown dataset type");
             }
             inConn = new OleDbConnection(ConnectionString);
+        }
+
+        public void Close()
+        {
+            inConn.Close();
         }
 
         public string[] GetTables()

@@ -45,7 +45,7 @@ namespace RecordProcessor
         /// Process record
         /// </summary>
         /// <param name="row">input record</param>
-		bool ProcessRecord(IDataRecord row);
+		bool ProcessRecord(IDataRecord record);
         
         /// <summary>
         /// 

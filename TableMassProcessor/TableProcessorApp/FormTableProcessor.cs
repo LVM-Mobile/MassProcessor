@@ -194,6 +194,7 @@ namespace TableProcessorApp
             this.CheckBoxEditMode.TabIndex = 28;
             this.CheckBoxEditMode.Text = "Edit mode";
             this.CheckBoxEditMode.UseVisualStyleBackColor = true;
+            this.CheckBoxEditMode.CheckedChanged += new System.EventHandler(this.CheckBoxEditMode_CheckedChanged);
             // 
             // comboBoxTableName
             // 
@@ -495,8 +496,8 @@ namespace TableProcessorApp
         
         private void buttonSave_Click(object sender, EventArgs e)
         {
-            //TODO: Take output data types from acceptable DataAdapters
-            saveFileDialog1.Filter = "Comma separated text(CSV)|*.csv|Excel (2000/2003)|*.xls";
+            saveFileDialog1.Filter = MakeFileTypesFilter(DatabaseAdapterFactory.KnownOutputFileTypes);
+          
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 textBoxOutputFileName.Text = saveFileDialog1.FileName;
@@ -585,6 +586,11 @@ namespace TableProcessorApp
             }
         }
 
+        private void CheckBoxEditMode_CheckedChanged(object sender, EventArgs e)
+        {
+            tp.ProcessMode = (CheckBoxEditMode.Checked) ? ProcessMode.pmEdit : ProcessMode.pmETL;
+                
 
-	}
+        }
+    }
 }

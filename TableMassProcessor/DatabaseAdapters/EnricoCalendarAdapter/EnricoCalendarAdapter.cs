@@ -12,7 +12,7 @@ namespace DatabaseAdapter
     public string  FileName
     {
 	  get {
-          return "Enrico web service";// http://kayaposoft.com/enrico/ws/v1.0/index.php?wsdl
+                return "http://kayaposoft.com/enrico/ws/v1.0/index.php?wsdl";
 	    }
 
         set { throw new NotImplementedException();  }
@@ -107,5 +107,10 @@ public int  GetRowsCount()
 {
  	throw new NotImplementedException();
 }
-}
+
+        public void Clone(IDatabaseAdapter outDatabase)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

@@ -8,7 +8,7 @@ using System.IO;
 
 namespace DatabaseAdapter
 {
-    public class XLSXDatabaseAdapter : IDatabaseAdapter, IDisposable
+    public class XLSXDatabaseAdapter : BaseFileDatabaseAdapter, IDisposable
     {
         ExcelPackage data;
         ExcelWorksheet curWorksheet;
@@ -17,28 +17,20 @@ namespace DatabaseAdapter
 
         public XLSXDatabaseAdapter()
         {
-         knownFileTypes["Excel 2007/2012"] = "*.xlsx";
+         KnownFileTypes["Excel 2007/2012"] = "*.xlsx";
         }
 
-        public string FileName { get; set; }
-        public Dictionary<string, string> KnownFileTypes
-        { get { return knownFileTypes; } }
-        private Dictionary<string, string> knownFileTypes = new Dictionary<string, string>();
+         override public void Connect() {
+            FileInfo info = new FileInfo(FileName);
+            if (!info.Exists)
+                throw new Exception(string.Format("File {0} is not exists", FileName));
 
-        public void Connect() {
-            Connect(FileName);
+            data = new ExcelPackage(info, true);
         }
         
-        public void Connect(string filename) {
-            FileInfo info = new FileInfo(filename);
-            if (!info.Exists)
-                throw new Exception(string.Format("File {0} is not exists", filename));
-
-            data = new ExcelPackage(info, true); 
-        }
-
+        
        
-        public string[] GetTables() { 
+         override public string[] GetTables() { 
             Connect(FileName);
             List<string> tables = new List<string>();
             foreach(var sheet in data.Workbook.Worksheets)
@@ -46,13 +38,9 @@ namespace DatabaseAdapter
             return tables.ToArray();
         }
 
-        public Dictionary<string, int> GetFields(string filename, string tablename) 
-        {
-            Connect(filename);
-            return GetFields(tablename);
-        }
+      
 
-        public Dictionary<string, int> GetFields(string tablename) 
+         override public Dictionary<string, int> GetFields(string tablename) 
         {
             Dictionary<string, int> columnNames = new Dictionary<string, int>();
             ExcelWorksheet sheet = data.Workbook.Worksheets[tablename];
@@ -64,7 +52,7 @@ namespace DatabaseAdapter
             return columnNames;
         }
 
-        public void SetTable(string tablename)
+       new  public void SetTable(string tablename)
         {
             //Set variables
             dataTable = new DataTable(tablename);
@@ -77,36 +65,26 @@ namespace DatabaseAdapter
             }
         }
 
-        public DbDataReader Execute(string sql) { 
-            throw new Exception("No suitable for this kind of adapter");
-        }
+      
         
         
-        public string NormTableName(string tablename) 
-        {
-            return tablename;
-        }
-        
-        public void Close() 
+         override public void Close() 
         {
             Dispose();
         }
         
         //Direct block
-        public void FirstRecord() {
+         override public void FirstRecord() {
             iRow = 1; //Skip first row as Header            
         }
         
-        public IDataRecord CurrentRecord() {
-            throw new Exception("Not implemented");
-        }
-
-        public int GetRowsCount()
+        
+         override public int GetRowsCount()
         {
             return curWorksheet.Dimension.End.Row;
         }
         
-        public DataRow CurrentRow()
+         override public DataRow CurrentRow()
         {
             DataRow row = dataTable.NewRow();
             
@@ -117,7 +95,7 @@ namespace DatabaseAdapter
             return row;
         }
 
-        public void UpdateRow(int ir, DataRow row)
+       new  public void UpdateRow(int ir, DataRow row)
         {
             for (int ic = 0; ic < row.ItemArray.Length; ic++)
             {
@@ -125,18 +103,18 @@ namespace DatabaseAdapter
             }            
         }
 
-        public bool NextRecord() {
+         override public bool NextRecord() {
             if (iRow >= curWorksheet.Dimension.End.Row) return false;
             iRow++;
             return true;
         }
         
-        public void Write(string filename) { 
+         override public void Write(string filename) { 
             FileInfo fi = new FileInfo(filename);
             data.SaveAs(fi);
         }
 
-        public void Write(DataTable table)
+         override public void Write(DataTable table)
         {
             throw new Exception("Not implemented");
         }
@@ -146,7 +124,7 @@ namespace DatabaseAdapter
             data.Dispose();
         }
 
-        public void SeekRecord(int position)
+         override public void SeekRecord(int position)
         {
             FirstRecord();
             int iRow = 0;

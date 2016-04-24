@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{537A7098-F246-4A77-941D-EEFDFA4C6569}</ProjectGuid>
+    <ProjectGuid>{3F43A3E9-450B-4014-870F-3711B10F4BCC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>IDatabaseAdapter</RootNamespace>
-    <AssemblyName>IDatabaseAdapter</AssemblyName>
+    <RootNamespace>ImportTimeSheets</RootNamespace>
+    <AssemblyName>ImportTimeSheet</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -41,11 +41,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseFileDatabaseAdapter.cs" />
-    <Compile Include="IDatabaseAdapter.cs" />
+    <Compile Include="ImportTimeSheet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RecordProcessor\RecordProcessor.csproj">
+      <Project>{fb335f6e-24bc-44e1-9fad-66dca369bb29}</Project>
+      <Name>RecordProcessor</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy ImportTimesheet.dll  ..\..\..\TableProcessorApp\bin\Debug\modules\ImportTimesheet.dll
+copy ImportTimesheet.dll.config  ..\..\..\TableProcessorApp\bin\Debug\modules\ImportTimesheet.dll.config
+copy ImportTimesheet.dll  ..\..\..\TableProcessorWebApp\modules\ImportTimesheet.dll
+copy SmartGroup.dll.config  ..\..\..\TableProcessorWebApp\modules\ImportTimesheet.dll.config</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -93,6 +93,7 @@ namespace RecordProcessor
         #region IRecordProcessor Members
         public virtual void Reset()
         {
+
         }
 
         public virtual bool ProcessRecord(IDataRecord row)

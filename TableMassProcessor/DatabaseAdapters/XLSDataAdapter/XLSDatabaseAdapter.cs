@@ -12,7 +12,7 @@ using System.Data.Common;
 
 namespace DatabaseAdapter
 {
-    public class XLSDatabaseAdapter: IDatabaseAdapter
+    public class XLSDatabaseAdapter: BaseFileDatabaseAdapter
     {
         private XlsDocument excelDoc;
         private Worksheet curSheet;

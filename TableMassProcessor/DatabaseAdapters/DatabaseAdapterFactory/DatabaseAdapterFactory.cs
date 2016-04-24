@@ -17,7 +17,22 @@ namespace DatabaseAdapter
               {"Web services", "*.url" }
 
         };
-        
+
+        static Dictionary<string, string> knownOutputFileTypes = new Dictionary<string, string>()
+        {
+              {"Excel 2000/2003", "*.xls" },
+              {"Excel 2007/2012", "*.xlsx" },
+              {"DBF", "*.dbf" },
+              {"XML", "*.xml" },
+              {"Web services", "*.url" }
+
+        };
+
+        public static Dictionary<string, string> KnownOutputFileTypes
+        {
+            get { return knownOutputFileTypes; }
+        }
+
         public static Dictionary<string, string> KnownFileTypes
         {
             get { return knownFileTypes; }
@@ -40,15 +55,10 @@ namespace DatabaseAdapter
                     case ".xml":
                         return new XmlDatabaseAdapter();
                 }
-                throw new Exception("Not found right DatabaseAdapter");
+                throw new Exception("Database read adapter is not found for " + extension.ToLower());
             }
-            else
-            {
-                
-            }
-            {
-                return new OleDbDatabaseAdapter(); //was OdbcDatabaseAdapter
-            }
+            return new OleDbDatabaseAdapter(); //was OdbcDatabaseAdapter
+            
         }
 
         public static IDatabaseAdapter CreateWriter(string extension)
@@ -67,7 +77,7 @@ namespace DatabaseAdapter
                    //      return new XmlDatabaseAdapter();
                    
                 }
-                throw new Exception("Not found right DatabaseAdapter");
+                throw new Exception("Database write adapter is not found for "+ extension.ToLower());
         }
 
     }

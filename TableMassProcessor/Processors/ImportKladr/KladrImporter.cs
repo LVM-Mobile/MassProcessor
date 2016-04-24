@@ -1,0 +1,421 @@
+using System;
+using System.Text;
+using System.Linq;
+using System.Data;
+using System.Collections.Generic;
+using RecordProcessor;
+using AddressesModel;
+
+namespace TableProcessorNS
+{
+    public class KladrImporter : BaseRecordProcessor
+    {
+        //Caches
+        private Dictionary<string, Area> areas = new Dictionary<string,Area>();
+        private Dictionary<string, District> districts = new Dictionary<string, District>();
+        
+        private static Dictionary<Field, bool> _knownFields = new Dictionary<Field, bool>();
+        enum TypeImportStage  {Places, Streets, Houses} ;
+        enum TypePlaceLevel  { Area, District, City } ;
+        TypeImportStage curStage;
+        
+        //DB Level
+        AddressModel2Entities addressModel;
+        Country russia;
+        //Known fields for This class
+        public override Dictionary<Field, bool> GetKnownFields()
+        {
+            return _knownFields;
+        }
+        
+		
+		public KladrImporter()
+		{
+        }
+
+        public override void Reset()
+        {
+            curStage = TypeImportStage.Places;  
+
+            addressModel = new AddressModel2Entities();
+            russia = (from c in addressModel.Country where c.Name =="–осси€" select c).First();
+        }
+
+        //Return statements for ETL processing mode
+        public override string []GetSelectStatements()
+		{
+			string[] inSQL = {
+                                  "SELECT * FROM [KLADR.DBF]",
+//								  "SELECT NAME,SOCR,CODE,INDEX,GNINMB,UNO,OCATD,STATUS FROM [KLADR.DBF]",
+								  "SELECT NAME,SOCR,CODE,INDEX FROM STREET.DBF",
+								  "SELECT NAME,SOCR,CODE,INDEX FROM DOMA.DBF",
+								  "SELECT * FROM ALTNAMES.DBF",
+								  "SELECT * FROM SOCRBASE.DBF"
+							  };
+			return inSQL;
+		}
+
+		
+        public override DataTable OutputData()
+        {
+            return null;
+        }
+
+        public void importArea(DataRow row)
+        {
+            string name = row["NAME"].ToString().Trim();
+            string socr = row["SOCR"].ToString().Trim();
+            string code = row["CODE"].ToString();
+            string INDEX = row["INDEX"].ToString().Trim();
+            string GNINMB = row["GNINMB"].ToString();
+            string UNO = row["UNO"].ToString();
+            string OCATD = row["OCATD"].ToString();
+            string STATUS = row["STATUS"].ToString();
+
+            Area area = (from a in addressModel.Area
+                         where a.Code == code
+                         select a).FirstOrDefault();
+
+            if (area == null)
+            {
+                //Add new Area to model
+                area = new Area();
+                russia.Areas.Add(area);
+            }
+            //Set/Update parameters of area
+            area.Code = code;
+            area.Index = INDEX;
+            area.Country = russia;
+            area.LastModifiedTime = DateTime.Now;
+            area.Source = "KLADR";
+            area.Status = int.Parse(STATUS);
+            area.OCATD = OCATD;
+            area.Name = name;
+            area.Socr = socr;
+        }
+
+        District importDistrict(DataRow row)
+        {
+            string name = row["NAME"].ToString().Trim();
+            string socr = row["SOCR"].ToString().Trim();
+            string code = row["CODE"].ToString().Trim();
+            string INDEX = row["INDEX"].ToString().Trim();
+            string GNINMB = row["GNINMB"].ToString().Trim();
+            string UNO = row["UNO"].ToString().Trim();
+            string OCATD = row["OCATD"].ToString().Trim();
+            string STATUS = row["STATUS"].ToString();
+
+             District district = (from d in addressModel.District
+                         where d.Code == code
+                         select d).FirstOrDefault();
+          
+            if (district == null)
+            {
+                Area area = GetAreaByCode(code);
+                //Add new Area to model
+                district = new District();
+                district.Area = area;
+                area.Districts.Add(district);
+            }
+          
+                        district.Code = code;
+                        district.Index = INDEX;
+                        //Update area??
+                        district.LastModifiedTime = DateTime.Now;
+                        district.Source = "KLADR";
+                        district.Status = int.Parse(STATUS);
+                        district.OCATD = OCATD;
+                        district.Name = name;
+                        district.Socr = socr;
+                        return district;
+        }
+
+        void importCity(DataRow row)
+        {
+            string name = row["NAME"].ToString().Trim();
+            string socr = row["SOCR"].ToString().Trim();
+            string code = row["CODE"].ToString().Trim();
+            string INDEX = row["INDEX"].ToString().Trim();
+            string GNINMB = row["GNINMB"].ToString().Trim();
+            string UNO = row["UNO"].ToString().Trim();
+            string OCATD = row["OCATD"].ToString().Trim();
+            string STATUS = row["STATUS"].ToString().Trim();
+
+            City city = (from c in addressModel.City
+                                 where c.Code == code
+                                 select c).FirstOrDefault();
+            
+           
+
+            if (city == null)
+            {
+                Area area = GetAreaByCode(code);
+                //Add new Area to model
+                city = new City();
+                //Find district
+                District district = GetDistrictByCode(code);
+
+             /*   if (district == null)
+                {
+                    DataRow distRow = row;
+                    distRow["NAME"] = "FAKE";
+                    //distRow["CODE"] = FilterDistrictCode(code);
+                    District fakeDistrict = importDistrict(distRow);
+                }
+               */
+                if (district != null)
+                {
+                    city.District = district;
+                    district.Cities.Add(city);
+                }
+                else
+                {
+                    area.Cities.Add(city);
+                }
+                    city.Area = area;   
+            }
+
+            //Update / Set attributes in any case
+           
+            city.Code = code;
+            city.Index = INDEX;
+            city.LastModifiedTime = DateTime.Now;
+            city.Source = "KLADR";
+            city.Status = int.Parse(STATUS);
+            city.OCATD = OCATD;
+            city.Name = name;
+            city.Socr = socr;
+           
+        }
+
+        bool importStreet(DataRow row)
+        {
+            string name = row["NAME"].ToString().Trim();
+            string socr = row["SOCR"].ToString().Trim();
+            string code = row["CODE"].ToString().Trim();
+            string INDEX = row["INDEX"].ToString().Trim();
+            string GNINMB = row["GNINMB"].ToString().Trim();
+            string UNO = row["UNO"].ToString().Trim();
+            string OCATD = row["OCATD"].ToString().Trim();
+
+            if (!code.StartsWith("28")) return false; ;
+            
+            Street street = (from s in addressModel.Street 
+                where s.Code == code select s).FirstOrDefault();
+            if (street == null)
+            {
+               // Area area = GetAreaByCode(code);
+                City city = GetCityByCode(code);
+                if (city == null)
+                {
+                    return false;
+                    //throw new Exception("City is not found for street code " + code); 
+                }
+                //Add new Street to model
+                street = new Street();
+                street.City = city;
+                city.Streets.Add(street);
+            }
+            //Update / Set attributes in any case
+            street.Code = code;
+            street.Index = INDEX;
+            street.LastModifiedTime = DateTime.Now;
+            street.Source = "KLADR";
+            street.OCATD = OCATD;
+            street.Name = name;
+            street.Socr = socr;
+            return true;
+        }
+
+
+        public override bool ProcessRow(DataRow row)
+        {
+            //Places NAME	SOCR	CODE	INDEX	GNINMB	UNO	OCATD	STATUS
+            string code = row["CODE"].ToString();
+            
+            if(!ParsePlaceState(code))
+                return false; //ignore non-actual records 
+            curStage = ParseCurState(row);
+            switch(curStage){
+                case TypeImportStage.Places:
+                    switch (ParsePlaceLevel(code))
+                    {
+                        case TypePlaceLevel.Area:
+                           importArea(row); 
+                        break;
+                        case TypePlaceLevel.District:
+                        importDistrict(row);
+                        break;
+                        case TypePlaceLevel.City:
+                        importCity(row);
+                        break;
+                    }
+
+                    //Commit
+                    addressModel.SaveChanges();
+
+                    break;
+                case TypeImportStage.Streets:
+                    if (importStreet(row))
+                        addressModel.SaveChanges();
+                    else
+                        return false;
+                    break;
+                case TypeImportStage.Houses:
+                    Building b = new Building();
+
+                    addressModel.AddToBuilding(b);
+                    break;
+            }
+            return true;
+        }
+        TypeImportStage ParseCurState(DataRow row)
+        {
+            switch (row.Table.ToString().ToLower())
+            {
+                case "kladr": return TypeImportStage.Places;
+                case "street": return TypeImportStage.Streets;
+                case "doma": return TypeImportStage.Houses;
+                default:
+                    throw new Exception( "Unknown table for KLADR");
+            }
+        }
+		public override bool ProcessRecord(IDataRecord record)
+		{
+            //Make DataRow
+
+            string name = GetStringFieldValue( record, "NAME");
+            string code =GetStringFieldValue( record, "CODE");
+			string postalObj = record.GetString(3);
+	         //Places NAME	SOCR	CODE	INDEX	GNINMB	UNO	OCATD	STATUS
+            string socr = GetStringFieldValue( record, "SOCR");
+
+            /*
+
+            if(!ParsePlaceState(code))
+                return true; //ignore non-actual records 
+            curStage = ParseCurState(row);
+            switch(curStage){
+                case TypeImportStage.Places:
+                    switch (ParsePlaceLevel(code))
+                    {
+                        case TypePlaceLevel.Area:
+                           importArea(row); 
+                        break;
+                        case TypePlaceLevel.District:
+                        importDistrict(row);
+                        break;
+                        case TypePlaceLevel.City:
+                        importCity(row);
+                        break;
+                    }
+
+                    //Commit
+                    addressModel.SaveChanges();
+
+                    break;
+                case TypeImportStage.Streets:
+                    if (importStreet(row))
+                        addressModel.SaveChanges();
+                    else
+                        return false;
+                    break;
+                case TypeImportStage.Houses:
+                    Building b = new Building();
+
+                    addressModel.AddToBuilding(b);
+                    break;
+            }
+            return true;
+             */
+            return false;
+		}
+
+       
+
+        TypePlaceLevel ParsePlaceLevel(string Code)
+        {
+            // A   D  C1  C2
+            // 01 234 567 890 12
+            // 01 000 001 005 00
+            if (Code.Substring(5, 6) != "000000") return TypePlaceLevel.City;
+            if (Code.Substring(2, 3) != "000") return TypePlaceLevel.District;
+            return TypePlaceLevel.Area;
+        }
+
+        string FilterAreaCode(string code)
+        {
+            return code.Substring(0, 2)+"00000000000";
+        }
+
+        string FilterDistrictCode(string code)
+        {
+            return  code.Substring(0, 2+3) + "00000000";
+        }
+
+        string FilterCityCode(string code)
+        {
+            return code.Substring(0, 2 + 3 + 3 + 3) + "00";
+        }
+
+        City GetCityByCode(string code)
+        { 
+         string cityCode = FilterCityCode(code);
+
+         var city = (from c in addressModel.City where c.Code == cityCode select c).FirstOrDefault();
+         return city;
+        }
+
+        District GetDistrictByCode(string code)
+        {
+            string districtCode = FilterDistrictCode(code);
+            if (districts.ContainsKey(districtCode))
+                return districts[districtCode];
+            else
+            {
+                var district = (from d in addressModel.District where d.Code == districtCode select d).FirstOrDefault();
+                if(district!=null)
+                districts[districtCode] = district;
+                return district;
+            }
+        }
+        
+        Area GetAreaByCode(string code)
+        { 
+            string areaCode = FilterAreaCode(code);
+            if(areas.ContainsKey(areaCode))
+                return areas[areaCode];
+            else{
+              var area = (from a in addressModel.Area where a.Code == areaCode select a).FirstOrDefault();
+              if (area!=null)
+              {
+                  areas[areaCode] = area;
+              }
+              return area;
+            }
+        }
+
+       
+        bool ParsePlaceState(string code)
+        {
+            return code.Substring(11,2) == "00";
+            
+            //—труктура кодового обозначени€ в блоке " од":
+//—— ––– √√√ ѕѕѕ јј, где
+//—— Ц код субъекта –оссийской ‘едерации (региона), коды регионов представлены в ѕриложении 2 к ќписанию классификатора адресов –оссийской ‘едерации ( Ћјƒ–);
+//––– Ц код района;
+//√√√ Ц код города;      
+//ѕѕѕ Ц код населенного пункта,
+//јј Ц признак актуальности адресного объекта.
+
+//ѕризнак актуальности может принимать следующие значени€:
+//            "00Ф Ц актуальный объект (его наименование, подчиненность соответствуют состо€нию на данный момент адресного пространства). 
+//            "01Ф-"50Ф Ц объект был переименован, в данной записи приведено одно из прежних его наименований (актуальный адресный объект присутствует в базе данных с тем же кодом, но с признаком актуальности "00Ф;
+//            "51Ф Ц  объект был переподчинен или влилс€ в состав другого объекта (актуальный адресный объект определ€етс€ по базе Altnames.dbf);
+//            "52Ф-"98Ф Ц резервные значени€ признака актуальности;
+//            Ф99Ф Ц адресный объект не существует, т.е. нет соответствующего ему актуального адресного объекта.
+        }
+
+   }
+
+}

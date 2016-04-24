@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/sources/TableProcessor/!svn/ver/31/trunk/KladrImporter
+END
+AssemblyInfo.cs
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/sources/TableProcessor/!svn/ver/54/trunk/KladrImporter/AssemblyInfo.cs
+END
+KladrImporter.cs
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/sources/TableProcessor/!svn/ver/57/trunk/KladrImporter/KladrImporter.cs
+END
+KladrImporter.csproj.user
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/sources/TableProcessor/!svn/ver/31/trunk/KladrImporter/KladrImporter.csproj.user
+END
+KladrImporter.csproj
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/sources/TableProcessor/!svn/ver/54/trunk/KladrImporter/KladrImporter.csproj
+END

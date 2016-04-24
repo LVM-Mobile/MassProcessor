@@ -4,14 +4,14 @@
     <ProjectType>Local</ProjectType>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{F74C9CE2-5D3E-4AE0-A6FC-8D79F5B40546}</ProjectGuid>
+    <ProjectGuid>{BF10D0A6-5AB3-42DB-A573-8EF0E8E8B360}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ApplicationIcon>
     </ApplicationIcon>
     <AssemblyKeyContainerName>
     </AssemblyKeyContainerName>
-    <AssemblyName>TableProcessor</AssemblyName>
+    <AssemblyName>KladrImporter</AssemblyName>
     <AssemblyOriginatorKeyFile>
     </AssemblyOriginatorKeyFile>
     <DefaultClientScript>JScript</DefaultClientScript>
@@ -19,7 +19,7 @@
     <DefaultTargetSchema>IE50</DefaultTargetSchema>
     <DelaySign>false</DelaySign>
     <OutputType>Library</OutputType>
-    <RootNamespace>TableProcessorNS</RootNamespace>
+    <RootNamespace>KladrImporter</RootNamespace>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
     <StartupObject>
     </StartupObject>
@@ -28,6 +28,21 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>3.5</OldToolsVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -53,7 +68,6 @@
     <WarningLevel>4</WarningLevel>
     <DebugType>full</DebugType>
     <ErrorReport>prompt</ErrorReport>
-    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -79,20 +93,11 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DatabaseAdapters\IDatabaseAdapter\IDatabaseAdapter.csproj">
-      <Project>{537a7098-f246-4a77-941d-eefdfa4c6569}</Project>
-      <Name>IDatabaseAdapter</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Libraries\Progress\Progress.csproj">
-      <Project>{bb938f25-4b88-48d4-a8a3-f7ddefc3f550}</Project>
-      <Name>Progress</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Processors\RecordProcessor\RecordProcessor.csproj">
-      <Project>{FB335F6E-24BC-44E1-9FAD-66DCA369BB29}</Project>
-      <Name>RecordProcessor</Name>
-    </ProjectReference>
-    <Reference Include="MyXls.SL2">
-      <HintPath>..\..\INSAP.Addresses\MyXls.SL2.dll</HintPath>
+    <Reference Include="Addresses.WebApp.Models.Address">
+      <HintPath>..\libraries\Addresses\Addresses.WebApp.Models.Address.dll</HintPath>
+    </Reference>
+    <Reference Include="AddressesModel">
+      <HintPath>..\libraries\Addresses\AddressesModel.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Name>System</Name>
@@ -100,36 +105,49 @@
     <Reference Include="System.Data">
       <Name>System.Data</Name>
     </Reference>
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.XML">
       <Name>System.XML</Name>
     </Reference>
+    <ProjectReference Include="..\RecordProcessor\RecordProcessor.csproj">
+      <Name>RecordProcessor</Name>
+      <Project>{FB335F6E-24BC-44E1-9FAD-66DCA369BB29}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="FieldsMap.cs" />
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
-    <Compile Include="TableProcessor.cs">
+    <Compile Include="KladrImporter.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>copy KladrImporter.dll  ..\..\..\TableProcessorApp\bin\Debug\modules\KladrImporter.dll
+copy KladrImporter.dll  ..\..\..\TableProcessorWebApp\modules\KladrImporter.dll</PostBuildEvent>
   </PropertyGroup>
 </Project>

@@ -106,17 +106,19 @@ namespace TableProcessorNS
         {
             Type TypeofIRecordProcessor = typeof(IRecordProcessor);
             foreach (Type Exported in Dynamic.GetExportedTypes())
+            {
                 if (TypeofIRecordProcessor.IsAssignableFrom(Exported))
                 {
-                    //			return (IRecordProcessor)Activator.CreateInstance(InputElementClass);
+                    //return (IRecordProcessor)Activator.CreateInstance(InputElementClass);
                     ConstructorInfo Constructor = Exported.GetConstructor(System.Type.EmptyTypes);
-                    if (Constructor != null)
-                    {
-                        // Type supports IMatch and has an no-parameter constructor
-                        IRecordProcessor Instance = (IRecordProcessor)Constructor.Invoke(System.Type.EmptyTypes);
-                        return Instance;
-                    }
+                    if (Constructor == null)
+                        throw new Exception("Failed to bind " + Dynamic.FullName + ". Classes has no proper Constructor");
+
+                    // Type supports IMatch and has an no-parameter constructor
+                    IRecordProcessor Instance = (IRecordProcessor)Constructor.Invoke(System.Type.EmptyTypes);
+                    return Instance;
                 }
+            }
             throw new Exception("Failed to bind " + Dynamic.FullName + ". No acceptable Classes found");
         }
 
@@ -165,28 +167,6 @@ namespace TableProcessorNS
             //Try to copy original to output database
             if (ProcessMode == ProcessMode.pmEdit)
             {
-                /*
-                //TODO: for file bases
-                if (File.Exists(InputDatabase.FileName) && OutputDatabase.FileName != string.Empty
-                    )
-                {
-                    File.Copy(InputDatabase.FileName, OutputDatabase.FileName, true);
-                }
-                else { 
-                //Directory base with file tables Like DBF
-                    if (Directory.Exists(InputDatabase.FileName))
-                    {
-                        Directory.CreateDirectory(OutputDatabase.FileName);
-                        var files = Directory.GetFiles(InputDatabase.FileName);
-                        foreach (var fn in files)
-                        {
-                            string out_fn = Path.Combine(OutputDatabase.FileName, Path.GetFileName(fn));
-                            if(File.Exists(fn))
-                                File.Copy(fn, out_fn, true);
-                        }
-                    }
-                }
-                */
                 ProcessEditMode(rp);
             }
             else {

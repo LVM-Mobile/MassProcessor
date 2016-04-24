@@ -8,46 +8,37 @@ using DotNetDBF;
 
 namespace DatabaseAdapter
 {
-    public class DBFDatabaseAdapter: IDatabaseAdapter, IDisposable
+    public class DBFDatabaseAdapter: BaseFileDatabaseAdapter, IDisposable
     {
         DBFReader dbf;
         DBFWriter dbfWriter;
 
         object[] currentRow;
         DataTable dataTable;
-
-        string _FileName;
-        Dictionary<string, string> knownFileTypes = new Dictionary<string, string>();
+        
         public DBFDatabaseAdapter()
         {
-            knownFileTypes["DBF"] = "*.dbf";
+            KnownFileTypes["DBF"] = "*.dbf";
         }
 
         public string FileName
         {
-            get { return _FileName; }
+            get { return  base.FileName; }
             set {
                 var filename = value;
                 if (filename.ToLower().Substring(filename.Length - 4) == ".dbf" || File.Exists(filename))
-                 _FileName = Path.GetDirectoryName(filename);
+                 base.FileName = Path.GetDirectoryName(filename);
                 else
-                 _FileName = filename; 
+                    base.FileName = filename; 
              }
         }
 
-        public Dictionary<string, string> KnownFileTypes
-        {
-            get{ return knownFileTypes; }
-        }
+     
 
         public void Connect()
         {
-            Connect(FileName);
-        }
-
-        public void Connect(string filename)
-        {
-            FileName = filename;
+            if (!Directory.Exists(FileName))
+                throw new Exception("Directory does not exists " + FileName);
         }
 
        
@@ -93,11 +84,6 @@ namespace DatabaseAdapter
             dbf.CharEncoding = Encoding.GetEncoding("cp866");
         }
 
-        public string NormTableName(string tablename)
-        {
-            return tablename;
-        }
-
         public void Write(System.Data.DataTable table)
         {
             throw new NotImplementedException();
@@ -112,8 +98,7 @@ namespace DatabaseAdapter
         {
             Connect();
         }
-
-      
+        
         public System.Data.IDataRecord CurrentRecord()
         {
 
@@ -134,7 +119,7 @@ namespace DatabaseAdapter
 
         public void UpdateRow(int irow, System.Data.DataRow row)
         {
-            ;// throw new NotImplementedException();
+            throw new NotImplementedException();
         }
 
         
